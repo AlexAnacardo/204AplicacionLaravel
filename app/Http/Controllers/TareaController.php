@@ -21,11 +21,11 @@ class TareaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'titulo' => 'required',
-            'descripcion' => 'nullable'
+        'titulo' => ['required', 'string', 'max:255', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
+        'descripcion' => ['nullable', 'string', 'max:1000', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
         ]);
 
-        Tarea::create($request->all());
+        Tarea::create($request->only('titulo', 'descripcion'));
         return redirect()->route('tareas.index')->with('success', 'Tarea creada correctamente.');
     }
 
@@ -37,10 +37,17 @@ class TareaController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'titulo' => ['required', 'string', 'max:255', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
+            'descripcion' => ['nullable', 'string', 'max:1000', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
+        ]);
+
         $tarea = Tarea::findOrFail($id);
-        $tarea->update($request->all());
+        $tarea->update($request->only('titulo', 'descripcion'));
+
         return redirect()->route('tareas.index')->with('success', 'Tarea actualizada.');
     }
+
 
     public function destroy($id)
     {

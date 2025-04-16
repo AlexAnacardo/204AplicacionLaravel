@@ -19,3 +19,7 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/validacion-tarea.js') }}"></script>
+@endpush
