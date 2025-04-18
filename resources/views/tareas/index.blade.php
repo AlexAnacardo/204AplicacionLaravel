@@ -13,7 +13,7 @@
 <div class="container py-5">
     <h1 class="mb-4 text-center">📋 Lista de Tareas</h1>
 
-    @if(count($tareas))
+    @if($tareas && $tareas->count())  <!-- Verificamos si $tareas no es null y si tiene elementos -->
         <div class="table-responsive">
             <table class="table table-striped table-hover shadow-sm rounded">
                 <thead class="table-dark">
@@ -51,6 +51,11 @@
             + Nueva Tarea
         </a>
     </div>
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+    <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+</form>
+
 </div>
 
 <!-- Bootstrap JS (opcional, para futuras funcionalidades) -->

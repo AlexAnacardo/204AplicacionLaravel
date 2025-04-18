@@ -12,10 +12,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tareas', function (Blueprint $table) {
-            $table->id();
+            $table->id(); //Define la columna como la clave primaria, al marcarla con "id" se especifica que es un int con auto increment por defecto
             $table->string('titulo');
             $table->text('descripcion')->nullable();
-            $table->timestamps();
+            $table->boolean('completada')->default(false);
+            $table->timestamps(); //Esta funcion crea automaticamente las tablas "created at" y "updated at"
         });
     }
 

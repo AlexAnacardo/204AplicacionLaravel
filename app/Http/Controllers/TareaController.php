@@ -23,8 +23,8 @@ class TareaController extends Controller
         $request->validate([
         'titulo' => ['required', 'string', 'max:255', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
         'descripcion' => ['nullable', 'string', 'max:1000', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
-        ]);
-
+        ]);        
+        
         Tarea::create($request->only('titulo', 'descripcion'));
         return redirect()->route('tareas.index')->with('success', 'Tarea creada correctamente.');
     }
