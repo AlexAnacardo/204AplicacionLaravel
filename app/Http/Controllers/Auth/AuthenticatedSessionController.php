@@ -28,6 +28,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        session(['usuarioEnCurso' => Auth::user()]); //Guardo al usuario en la sesion
+        
         // Redirigir a la página de tareas
         return redirect()->intended(route('dashboard', absolute: false));
 

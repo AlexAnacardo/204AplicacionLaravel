@@ -9,7 +9,12 @@ class TareaController extends Controller
 {
     public function index()
     {
-        $tareas = Tarea::all();
+        
+        //Recupero el usuario de la sesion
+        $usuarioEnCurso = session('usuarioEnCurso');
+        
+        $tareas = Tarea::where('user_id', $usuarioEnCurso->id)->get();
+        
         return view('tareas.index', compact('tareas'));
     }
 
@@ -25,7 +30,17 @@ class TareaController extends Controller
         'descripcion' => ['nullable', 'string', 'max:1000', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
         ]);        
         
-        Tarea::create($request->only('titulo', 'descripcion'));
+        //Recupero el usuario de la sesion
+        $usuarioEnCurso = session('usuarioEnCurso');
+        
+        //Tarea::create($request->only('titulo', 'descripcion'));
+        
+        Tarea::create([
+            'titulo' => $request->titulo,
+            'descripcion' => $request->descripcion,
+            'user_id' => $usuarioEnCurso->id,  // Asociamos la tarea al usuario autenticado
+        ]);
+        
         return redirect()->route('tareas.index')->with('success', 'Tarea creada correctamente.');
     }
 

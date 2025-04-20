@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->boolean('completada')->default(false);
             $table->timestamps(); //Esta funcion crea automaticamente las tablas "created at" y "updated at"
+            
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });
     }
 

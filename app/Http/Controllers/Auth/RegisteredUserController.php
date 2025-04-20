@@ -41,6 +41,8 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        session(['usuarioEnCurso' => $user]); //Guardo al usuario en la sesion
+        
         event(new Registered($user));
 
         Auth::login($user);
