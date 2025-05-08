@@ -18,7 +18,7 @@ class TareaController extends Controller
         
         $tareas = Tarea::where('user_id', $usuarioEnCurso->id)
                     ->where('completada', $mostrarCompletadas)
-                    ->get();
+                    ->paginate(6);
         
         return view('tareas.index', compact('tareas', 'mostrarCompletadas'));
     }

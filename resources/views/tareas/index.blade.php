@@ -71,6 +71,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center mt-4">
+                {{ $tareas->withQueryString()->links() }}
+            </div>
         </div>
     @else
         <div class="alert alert-warning text-center" role="alert">
