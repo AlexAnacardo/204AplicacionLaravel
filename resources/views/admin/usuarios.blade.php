@@ -2,56 +2,55 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lista de Usuarios</title>
+    <!-- Aquí puedes agregar el enlace a Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-<div class="container py-5">
-    <h1 class="mb-4 text-center">👥 Lista de Usuarios</h1>
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Administrador</th>
-                    <th>Operaciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($usuarios as $usuario)
-                    <tr>
-                        <td>{{ $usuario->id }}</td>
-                        <td>{{ $usuario->name }}</td>
-                        <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->es_admin ? '✅ Sí' : '❌ No' }}</td>
-                        <td>
-                            <a href="{{ route('admin.usuarios.editar', $usuario->id) }}" class="btn btn-sm btn-warning">Editar</a>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">LaravelApp</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.usuarios') }}">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.tareas') }}">Tareas</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-                            <form action="{{ route('admin.usuarios.eliminar', $usuario->id) }}" method="POST" style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</button>
-                            </form>
+    <!-- Contenido -->
+    <div class="container py-4">
+        <h2>Lista de Usuarios</h2>
 
-                            <a href="{{ route('admin.usuarios.tareas', $usuario->id) }}" class="btn btn-sm btn-info">Ver Tareas</a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
+        @foreach($usuarios as $usuario)
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <p>{{ $usuario->name }} ({{ $usuario->email }})</p>
 
-        </table>
+            <div>
+                <!-- Enlace para ver las tareas -->
+                <a href="{{ route('admin.usuarios.tareas', $usuario->id) }}" class="btn btn-info btn-sm me-2">Ver Tareas</a>
+
+                <!-- Botones de edición y eliminación -->
+                <a href="{{ route('admin.usuarios.editar', $usuario->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                <form action="{{ route('admin.usuarios.eliminar', $usuario->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+            </div>
+        </div>
+        @endforeach
     </div>
 
-    <div class="d-flex justify-content-center mt-3">
-        {{ $usuarios->links() }}
-    </div>
-
-    <div class="text-center mt-4">
-        <a href="{{ route('tareas.index') }}" class="btn btn-secondary">← Volver a Tareas</a>
-    </div>
-</div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
