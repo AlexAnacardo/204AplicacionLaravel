@@ -14,6 +14,17 @@
     <h1 class="mb-4 text-center">📋 Lista de Tareas</h1>
 
     @if($tareas && $tareas->count())  <!-- Verificamos si $tareas no es null y si tiene elementos -->
+        <div class="text-center mb-3">
+            @if ($mostrarCompletadas)
+                <a href="{{ route('tareas.index') }}" class="btn btn-primary">
+                    🔙 Ver tareas sin completar
+                </a>
+            @else
+                <a href="{{ route('tareas.index', ['completadas' => 1]) }}" class="btn btn-secondary">
+                    ✅ Ver tareas completadas
+                </a>
+            @endif
+        </div>
         <div class="table-responsive">
             <table class="table table-striped table-hover shadow-sm rounded">
                 <thead class="table-dark">
@@ -72,7 +83,7 @@
             + Nueva Tarea
         </a>
     </div>
-    <form method="POST" action="{{ route('logout') }}">
+    <form class="text-center mb-3" method="POST" action="{{ route('logout') }}">
         @csrf
     <button type="submit" class="btn btn-danger">Cerrar sesión</button>
 </form>

@@ -7,15 +7,20 @@ use App\Models\Tarea;
 
 class TareaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         
         //Recupero el usuario de la sesion
         $usuarioEnCurso = session('usuarioEnCurso');
         
-        $tareas = Tarea::where('user_id', $usuarioEnCurso->id)->get();
+        $mostrarCompletadas = $request->query('completadas') === '1';
         
-        return view('tareas.index', compact('tareas'));
+        
+        $tareas = Tarea::where('user_id', $usuarioEnCurso->id)
+                    ->where('completada', $mostrarCompletadas)
+                    ->get();
+        
+        return view('tareas.index', compact('tareas', 'mostrarCompletadas'));
     }
 
     public function create()
