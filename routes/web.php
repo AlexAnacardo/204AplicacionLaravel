@@ -20,6 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/tareas/{id}', [TareaController::class, 'update'])->name('tareas.update');
     Route::get('/tareas/{id}/delete', [TareaController::class, 'confirmDelete'])->name('tareas.confirmDelete');
     Route::delete('/tareas/{id}', [TareaController::class, 'destroy'])->name('tareas.destroy');
+    Route::get('/tareas/{id}/toggle', [TareaController::class, 'toggleEstado'])->name('tareas.toggleEstado');
+
 });
 
 Route::get('/dashboard', [TareaController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');

@@ -63,7 +63,24 @@ class TareaController extends Controller
         return redirect()->route('tareas.index')->with('success', 'Tarea actualizada.');
     }
 
+    public function toggleEstado($id)
+    {
+        $tarea = Tarea::findOrFail($id);
 
+        // Verificamos que la tarea sea del usuario en sesión
+        $usuarioEnCurso = session('usuarioEnCurso');
+        if ($tarea->user_id != $usuarioEnCurso->id) {
+            abort(403, 'No autorizado.');
+        }
+
+        // Cambiamos el estado
+        $tarea->completada = !$tarea->completada;
+        $tarea->save();
+
+        return redirect()->route('tareas.index');
+    }
+
+    
     public function destroy($id)
     {
         $tarea = Tarea::findOrFail($id);

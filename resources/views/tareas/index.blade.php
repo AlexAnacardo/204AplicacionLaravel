@@ -21,6 +21,9 @@
                         <th>Título</th>
                         <th>Descripción</th>
                         <th>Acciones</th>
+                        <th>Cambiar estado</th>
+                        <th>Fecha creacion</th>
+                        <th>Completada en</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,11 +32,29 @@
                             <td>{{ $tarea->titulo }}</td>
                             <td>{{ $tarea->descripcion }}</td>
                             <td>
-                                <a href="{{ route('tareas.edit', $tarea->id) }}" class="btn btn-sm btn-warning">Editar</a>
-
+                                @if (!$tarea->completada)
+                                    <a href="{{ route('tareas.edit', $tarea->id) }}" class="btn btn-sm btn-warning">Editar</a>
+                                @endif
                                 <a href="{{ route('tareas.confirmDelete', $tarea->id) }}" class="btn btn-sm btn-danger">
                                     Eliminar
                                 </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('tareas.toggleEstado', $tarea->id) }}">
+                                    @if (!$tarea->completada)
+                                        <img src="{{ asset('images/TareaCompletada.png') }}" alt="Completada" width="50">
+                                    @endif
+                                </a>
+                            </td>
+                            <td>
+                                {{ $tarea->created_at }}
+                            </td>
+                            <td>
+                                @if ($tarea->completada)
+                                    {{ $tarea->updated_at }}
+                                @else
+                                    Sin completar
+                                @endif
                             </td>
                         </tr>
                     @endforeach
