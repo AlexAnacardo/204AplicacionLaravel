@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->boolean('es_admin')->default(false);
         });
         
         Schema::create('sessions', function (Blueprint $table) {  //Uso la sesion mediante la base de datos pues es lo mas recomendable al trabajar con laravel
