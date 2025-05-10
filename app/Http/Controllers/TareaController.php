@@ -9,19 +9,39 @@ class TareaController extends Controller
 {
     public function index(Request $request)
     {
-        
-        //Recupero el usuario de la sesion
-        $usuarioEnCurso = session('usuarioEnCurso');
-        
-        $mostrarCompletadas = $request->query('completadas') === '1';
-        
-        
-        $tareas = Tarea::where('user_id', $usuarioEnCurso->id)
-                    ->where('completada', $mostrarCompletadas)
-                    ->paginate(6);
-        
-        return view('tareas.index', compact('tareas', 'mostrarCompletadas'));
+        $usuario = session('usuarioEnCurso');
+        $completadas = $request->boolean('completadas');
+
+        // Validar filtros
+        $validated = $request->validate([
+            'buscar' => ['nullable', 'string', 'max:100'],
+            'prioridad' => ['nullable', 'in:baja,media,alta'],
+        ]);
+
+        // Construir consulta base
+        $query = Tarea::where('user_id', $usuario->id)
+                      ->where('completada', $completadas);
+
+        // Filtro por texto
+        if (!empty($validated['buscar'])) {
+            $query->where(function ($q) use ($validated) {
+                $q->where('titulo', 'like', '%' . $validated['buscar'] . '%')
+                  ->orWhere('descripcion', 'like', '%' . $validated['buscar'] . '%');
+            });
+        }
+
+        // Filtro por prioridad
+        if (!empty($validated['prioridad'])) {
+            $query->where('prioridad', $validated['prioridad']);
+        }
+
+        // Obtener resultados paginados
+        $tareas = $query->latest()->paginate(6)->withQueryString();
+
+        return view('tareas.index', compact('tareas'))->with('mostrarCompletadas', $completadas);
+
     }
+
 
     public function create()
     {

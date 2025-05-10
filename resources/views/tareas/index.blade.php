@@ -20,16 +20,39 @@
     <h1 class="mb-4 text-center">📋 Lista de Tareas</h1>
 
     <div class="text-center mb-3">
-        @if ($mostrarCompletadas)
-            <a href="{{ route('tareas.index') }}" class="btn btn-primary">
-                🔙 Ver tareas sin completar
-            </a>
-        @else
-            <a href="{{ route('tareas.index', ['completadas' => 1]) }}" class="btn btn-secondary">
-                ✅ Ver tareas completadas
-            </a>
-        @endif
+        <form method="GET" action="{{ route('tareas.index') }}">
+            {{-- Mantener los filtros actuales --}}
+            <input type="hidden" name="buscar" value="{{ request('buscar') }}">
+            <input type="hidden" name="prioridad" value="{{ request('prioridad') }}">
+            <input type="hidden" name="completadas" value="{{ $mostrarCompletadas ? 0 : 1 }}">
+            <button type="submit" class="btn {{ $mostrarCompletadas ? 'btn-primary' : 'btn-secondary' }}">
+                {{ $mostrarCompletadas ? '🔙 Ver tareas sin completar' : '✅ Ver tareas completadas' }}
+            </button>
+        </form>
     </div>
+
+    
+    <form method="GET" action="{{ route('tareas.index') }}" class="row g-3 mb-4">
+        <input type="hidden" name="completadas" value="{{ $mostrarCompletadas ? 1 : 0 }}">
+        <div class="col-md-5">
+            <input type="text" name="buscar" value="{{ request('buscar') }}" class="form-control" placeholder="Buscar por título o descripción">
+        </div>
+
+        <div class="col-md-4">
+            <select name="prioridad" class="form-select">
+                <option value="">Todas</option>
+                <option value="baja" {{ request('prioridad') === 'baja' ? 'selected' : '' }}>Baja</option>
+                <option value="media" {{ request('prioridad') === 'media' ? 'selected' : '' }}>Media</option>
+                <option value="alta" {{ request('prioridad') === 'alta' ? 'selected' : '' }}>Alta</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">🔍 Buscar</button>
+        </div>
+    </form>
+
+    
     @if($tareas && $tareas->count())  <!-- Verificamos si $tareas no es null y si tiene elementos -->        
         <div class="table-responsive">
             <table class="table table-striped table-hover shadow-sm rounded">

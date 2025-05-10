@@ -48,6 +48,9 @@
             </div>
         </div>
         @endforeach
+        <div class="d-flex justify-content-center mt-4">
+            {{ $usuarios->withQueryString()->links() }}
+        </div>
     </div>
 
     <!-- Bootstrap JS -->

@@ -10,8 +10,8 @@ class UserController extends Controller
 {
     public function index()
     {
-        // Aquí recuperamos todos los usuarios, puedes cambiarlo por algún filtro si es necesario
-        $usuarios = User::all();
+       
+        $usuarios = User::paginate(10);
         return view('admin.usuarios', compact('usuarios'));
     }
 
