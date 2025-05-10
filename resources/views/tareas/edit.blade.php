@@ -14,6 +14,15 @@
             <label>Descripción</label>
             <textarea name="descripcion" class="form-control">{{ $tarea->descripcion }}</textarea>
         </div>
+        <div class="mb-3">
+            <label for="prioridad" class="form-label">Prioridad</label>
+            <select name="prioridad" id="prioridad" class="form-select" required>
+                <option value="baja" {{ $tarea->prioridad == 'baja' ? 'selected' : '' }}>Baja</option>
+                <option value="media" {{ $tarea->prioridad == 'media' ? 'selected' : '' }}>Media</option>
+                <option value="alta" {{ $tarea->prioridad == 'alta' ? 'selected' : '' }}>Alta</option>
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Actualizar</button>
         <a href="{{ route('tareas.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>

@@ -15,6 +15,7 @@ class Tarea extends Model
         'descripcion',
         'completada',
         'user_id',
+        'prioridad',
     ];
 }
 

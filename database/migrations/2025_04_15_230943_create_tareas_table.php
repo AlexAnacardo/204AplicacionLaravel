@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id(); //Define la columna como la clave primaria, al marcarla con "id" se especifica que es un int con auto increment por defecto
             $table->string('titulo');
             $table->text('descripcion')->nullable();
+            $table->enum('prioridad', ['baja', 'media', 'alta'])->default('media');
             $table->boolean('completada')->default(false);
-            $table->timestamps(); //Esta funcion crea automaticamente las tablas "created at" y "updated at"
+            $table->timestamps(); //Esta funcion crea automaticamente las tablas "created at" y "updated at"            
             
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });

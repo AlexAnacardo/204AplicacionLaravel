@@ -33,6 +33,7 @@ class TareaController extends Controller
         $request->validate([
         'titulo' => ['required', 'string', 'max:255', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
         'descripcion' => ['nullable', 'string', 'max:1000', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
+        'prioridad' => ['required', 'in:baja,media,alta'],
         ]);        
         
         //Recupero el usuario de la sesion
@@ -44,6 +45,7 @@ class TareaController extends Controller
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
             'user_id' => $usuarioEnCurso->id,  // Asociamos la tarea al usuario autenticado
+            'prioridad' => $request->prioridad,
         ]);
         
         return redirect()->route('tareas.index')->with('success', 'Tarea creada correctamente.');
@@ -60,10 +62,11 @@ class TareaController extends Controller
         $request->validate([
             'titulo' => ['required', 'string', 'max:255', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
             'descripcion' => ['nullable', 'string', 'max:1000', 'not_regex:/<script\b[^>]*>(.*?)<\/script>/i'],
+            'prioridad' => ['required', 'in:baja,media,alta'],
         ]);
 
         $tarea = Tarea::findOrFail($id);
-        $tarea->update($request->only('titulo', 'descripcion'));
+        $tarea->update($request->only('titulo', 'descripcion', 'prioridad'));
 
         return redirect()->route('tareas.index')->with('success', 'Tarea actualizada.');
     }

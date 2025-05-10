@@ -25,6 +25,14 @@
             <label for="descripcion" class="form-label">Descripción</label>
             <textarea name="descripcion" class="form-control" id="descripcion" rows="4"></textarea>
         </div>
+        <div class="mb-3">
+            <label for="prioridad" class="form-label">Prioridad</label>
+            <select name="prioridad" id="prioridad" class="form-select" required>
+                <option value="baja">Baja</option>
+                <option value="media" selected>Media</option>
+                <option value="alta">Alta</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
         <a href="{{ route('tareas.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
